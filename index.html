@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,14 +9,42 @@
 <body>
     <h1>Student Management System</h1>
     <h2>Student Registration</h2>
-    <form>
+
+    <form id="registrationForm">
         <label for="name">Student Name:</label>
         <input type="text" id="name" name="name" required>
         <br><br>
+
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
         <br><br>
+
         <button type="submit">Register</button>
     </form>
+
+    <p id="message" role="status" aria-live="polite"></p>
+
+    <script>
+        const form = document.getElementById("registrationForm");
+        const emailInput = document.getElementById("email");
+        const message = document.getElementById("message");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const email = emailInput.value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email)) {
+                message.textContent = "Please enter a valid email address.";
+                emailInput.focus();
+                return;
+            }
+
+            message.textContent = "Student registration successful!";
+            form.reset();
+        });
+    </script>
 </body>
 </html>
+```
