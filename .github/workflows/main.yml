@@ -1,29 +1,57 @@
 name: Student Management System CI
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+push:
+branches:
+- main
+- feature/student-email-validation
+pull_request:
+branches:
+- main
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+test:
+runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
 
-      - name: Verify project files
-        run: |
-          test -f index.html
-          test -f README.md
-          echo "All project files exist!"
+steps:
+  - name: Checkout code
+    uses: actions/checkout@v4
 
-      - name: Validate HTML file
-        run: |
-          grep -q "<html" index.html
-          grep -q "</html>" index.html
-          echo "HTML validation successful!"
+  - name: Verify project files
+    run: |
+      test -f index.html
+      test -f README.md
+      echo "All project files exist!"
+
+  - name: Validate HTML structure
+    run: |
+      grep -qi '<html' index.html
+      grep -qi '</html>' index.html
+      grep -qi '<head>' index.html
+      grep -qi '</head>' index.html
+      grep -qi '<body>' index.html
+      grep -qi '</body>' index.html
+      echo "HTML structure validation successful!"
+
+  - name: Verify student registration form
+    run: |
+      grep -qi '<form' index.html
+      grep -qi 'name="name"' index.html
+      grep -qi 'name="email"' index.html
+      grep -qi 'type="email"' index.html
+      grep -qi 'required' index.html
+      echo "Student registration form checks passed!"
+
+  - name: Verify registration button
+    run: |
+      grep -qi 'type="submit"' index.html
+      grep -qi 'Register' index.html
+      echo "Registration button check passed!"
+
+
+
+
+
+
+
